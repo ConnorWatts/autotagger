@@ -1,2 +1,2 @@
-# autotagger
+# AutoTagger
 Tagger for recipes
