@@ -72,7 +72,7 @@ def tag_recipe():
         # Check if 'takes' is empty or not provided and default to 'multi-take'
         takes = request.form.get("takes")
         if not takes or takes == '':
-            takes = "one-take"  # Default value for 'takes'
+            takes = "multi-take"  # Default value for 'takes'
 
         # Prepare tagging configuration
         tagging_config = {
