@@ -43,7 +43,7 @@ Please just return the JSON object with the relevant tags for the recipe. Make s
 
 ---
 
-Please return the JSON ONLY. Include ALL catgories and tags that are relevant to the recipe.
+Please have no more than {k} tags per catgeory (stated at the beginning). Please make sure to have no more than {k}. This is important.Please return the JSON ONLY. Include ALL catgories and tags that are relevant to the recipe.
 
 Now proceed to categorize the following recipe:"""
 
@@ -72,7 +72,7 @@ Expected output:
 
 ---
 
-Please have no more than {k} tags per catgeory. Please return just the output in the JSON format. Only that.
+Please have no more than {k} tags per catgeory (stated at the beginning). Please make sure to have no more than {k}. This is important.  Please return just the output in the JSON format. Only that.
 
 Now proceed to find the relevant tags from the following recipe:"""
 

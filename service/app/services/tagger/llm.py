@@ -92,11 +92,8 @@ class LLMTagger(Tagger):
                     out.update(parsed_response)
                 except Exception as e:
                     self.logger.error(f"Error getting response from LLM Attempt {i} for {category}: {e}")
-                    continue
-
+                    continue         
         return out
-            
-
     
     def parse_dict_response(self, input_str: str) -> dict:
         """

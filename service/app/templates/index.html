@@ -117,6 +117,31 @@
             <div id="categories-list"></div>
         </div>
 
+        <h2>Option Explanations:</h2>
+        <div class="config-section">
+            <h3>Tagger Type:</h3>
+            <p>Select the type of tagger to be used.</p>
+            <ul>
+                <li><strong>LLM Tagger:</strong> Uses an LLM (e.g., GPT-4) to tag the recipe.</li>
+                <li><strong>Similarity Tagger:</strong> (Not implemented) Tags based on similarity metrics.</li>
+                <li><strong>Hybrid Tagger:</strong> (Not implemented) Combines LLM and similarity tagging.</li>
+            </ul>
+
+            <h3>Max Number of Tags Per Category (k):</h3>
+            <p>Specify the maximum number of tags that can be returned per category. Default value is 2 if not provided.</p>
+
+            <h3>Categories (Optional, comma-separated):</h3>
+            <p>Specify a comma-separated list of categories (e.g., Ingredient, Cuisine) for more targeted tagging. If left empty, all categories are considered. To see the current list of Categorires use the see all button.</p>
+
+            <h3>Model Source:</h3>
+            <p>Enter the source of the language model used for tagging. Default value is <strong>"openai"</strong>.</p>
+
+            <h3>Model Name:</h3>
+            <p>Enter the name of the specific model to be used for tagging. Default value is <strong>"gpt-4"</strong>.</p>
+
+            <h3>Takes:</h3>
+            <p>Specify whether to use single or multiple takes for tagging. Default value is <strong>"multi-take"</strong>. This iterates through each of the categories to reduce the load on the LLM. The downside is increased calls.</p>
+        </div>
     </div>
 
     <script>

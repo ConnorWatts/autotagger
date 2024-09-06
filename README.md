@@ -73,6 +73,27 @@ You can visit `http://localhost:5000/api/docs/` to view the Swagger API document
 
 ---
 
+## Cloud Deployment
+
+For cloud deployment, I would leverage **Docker** to containerize the application, making it easier to deploy across different environments. The steps would include:
+
+1. **Dockerize the Application**: 
+    - Build a Docker image containing the Flask app and its dependencies.
+    - Use a multi-stage build to optimize the image size and ensure the final image is lightweight and secure.
+
+2. **Choose a Cloud Provider**: 
+    - I would likely use **AWS Elastic Beanstalk** for simplicity  and it's what I have experience with
+
+3. **Database Setup**:
+    - Use a managed service like **AWS RDS** or **GCP Cloud SQL** for Postgres, ensuring it is properly configured for production with automatic backups and failovers.
+
+4. **Scaling**:
+    - Auto-scaling can be configured in AWS to handle high traffic, scaling instances up or down based on demand.
+    - **Load Balancer** in front of multiple app instances (handled by Elastic Beanstalk) to distribute incoming traffic evenly.
+
+5. **Environment Variables**: 
+    - Use secure mechanisms like AWS Secrets Manager for environment variables such as API keys. It's currently just in an .env file. 
+
 ## Extensions 
 
 I ran out of time but these were some of the ideas I was working towards
@@ -104,7 +125,21 @@ I made a couple of tests but didn't manage to complete.
     pytest
     ```
 
-or through docker-compose-test
+or through docker-compose-test. 
+
+## LLM Alignment 
+
+Several approaches can be taken do get better accuracy:
+  
+- **Human Feedback**: Collect feedback on tag relevance from real users, storing results to evaluate and fine-tune the system.
+      
+- **LLM Judge**: Use another LLM (or the same) to judge the quality of generated tags by comparing the tags to ground truth tags or evaluating based on context.
+      
+- **Metrics**: Key metrics for evaluating LLM outputs include:
+    - **Relevance**: How closely the tag matches the recipe's content.
+    - **Coverage**: Ensuring that each category (e.g., Ingredient, Cuisine) is tagged appropriately.
+    - **Accuracy**: Confirm that the tags adhere to the predefined list of allowable tags and do not exceed `k` per category.
+
 
 ---
 ## Flask Setup
@@ -118,6 +153,11 @@ For production, I used **Gunicorn** as the WSGI server to handle concurrent requ
 - **Models**: The database models (e.g., Tag, Category) represent the underlying data structure.
 
 ---
+
+
+## Limitations
+
+- **Tag Relevance**: Although the system uses an LLM to generate tags, it sometimes struggles to consistently identify the most relevant tags for each category
 
 ## TODO: 
 
