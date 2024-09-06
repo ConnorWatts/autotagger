@@ -72,7 +72,7 @@ Expected output:
 
 ---
 
-Please return just the output in the JSON format. Only that.
+Please have no more than {k} tags per catgeory. Please return just the output in the JSON format. Only that.
 
 Now proceed to find the relevant tags from the following recipe:"""
 

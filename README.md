@@ -49,6 +49,8 @@ To run the application locally, I use the Flask development server:
 flask run
 ```
 
+IMPORTANT: To run this app you need the attached .env file (put in the same place as the .env.db)
+
 ## Once running
 
 Visit `http://127.0.0.1:5000/` to access the main dashboard for the user.
@@ -64,6 +66,8 @@ Visit `http://127.0.0.1:5000/` to access the main dashboard for the user.
   - Maximum number of tags per category (`k`).
   - Selection of relevant categories (e.g., ingredients, cuisine, meal type).
   - Choice of model source (e.g., OpenAI’s GPT).
+
+As part of the tagging we only includ tags if they are relevant to the recipe. 
 
 You can visit `http://localhost:5000/api/docs/` to view the Swagger API documentation for the devs. 
 
