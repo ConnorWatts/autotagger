@@ -1,0 +1,451 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Recipe Tagger API",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "/"
+      }
+    ],
+    "paths": {
+      "/api/categories": {
+        "get": {
+          "summary": "Get all categories",
+          "tags": ["Categories"],
+          "responses": {
+            "200": {
+              "description": "List of all categories",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "example": ["Ingredient", "Meal Type", "Cuisine"]
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "Error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/category/tags": {
+        "get": {
+          "summary": "Get tags for a specific category",
+          "tags": ["Categories"],
+          "parameters": [
+            {
+              "name": "category_id",
+              "in": "query",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "The ID of the category"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Tags for the given category",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "example": ["Pasta", "Tomato", "Olive Oil"]
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request - category_id missing",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "Error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Category not found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "Error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/category/tag": {
+        "post": {
+          "summary": "Add a tag to a category",
+          "tags": ["Tags"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "category_id": {
+                      "type": "integer"
+                    },
+                    "tag": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["category_id", "tag"]
+                },
+                "example": {
+                  "category_id": 1,
+                  "tag": "Pasta"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Tag added successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "Message": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "Message": "Tag 'Pasta' added to category 1."
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "Error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Remove a tag from a category",
+          "tags": ["Tags"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "category_id": {
+                      "type": "integer"
+                    },
+                    "tag": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["category_id", "tag"]
+                },
+                "example": {
+                  "category_id": 1,
+                  "tag": "Pasta"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Tag removed successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "Message": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "Message": "Tag 'Pasta' removed from category 1."
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "Error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/category": {
+        "post": {
+          "summary": "Add a new category",
+          "tags": ["Categories"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["name"]
+                },
+                "example": {
+                  "name": "Cuisine"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Category added successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "Message": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "Message": "Category 'Cuisine' added successfully."
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "Error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a category",
+          "tags": ["Categories"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "category_id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["category_id"]
+                },
+                "example": {
+                  "category_id": 1
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Category deleted successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "Message": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": {
+                    "Message": "Category 1 removed successfully."
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "Error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/tagger": {
+        "post": {
+          "summary": "Tag a recipe",
+          "tags": ["Tagging"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recipe": {
+                      "type": "string"
+                    },
+                    "tagger_type": {
+                      "type": "string",
+                      "default": "llm"
+                    },
+                    "k": {
+                      "type": "integer",
+                      "default": 2
+                    },
+                    "categories": {
+                      "type": "string"
+                    },
+                    "model_source": {
+                      "type": "string",
+                      "default": "openai"
+                    },
+                    "model_name": {
+                      "type": "string",
+                      "default": "gpt-4"
+                    },
+                    "takes": {
+                      "type": "string",
+                      "default": "one-take"
+                    }
+                  },
+                  "required": ["recipe"]
+                },
+                "example": {
+                  "recipe": "Pasta with tomato sauce",
+                  "tagger_type": "llm",
+                  "k": 3,
+                  "categories": "Ingredient, Meal Type",
+                  "model_source": "openai",
+                  "model_name": "gpt-4",
+                  "takes": "one-take"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Recipe successfully tagged",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "tags": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "tags": ["Pasta", "Main Course", "Italian"]
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal server error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "Error": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  

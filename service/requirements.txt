@@ -1,0 +1,10 @@
+flask
+flask-sqlalchemy
+flask_migrate
+flask-marshmallow
+flask_swagger_ui
+flask_cors
+pgvector
+langchain_core
+openai
+langchain_openai

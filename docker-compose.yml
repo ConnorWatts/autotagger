@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  main:
+    build:
+      context: ./service/
+      dockerfile: Dockerfile
+    volumes:
+      - ./service/:/usr/src/app/
+    ports:
+      - 5000:5000
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.db
+
+volumes:
+  postgres_data:

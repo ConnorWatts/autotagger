@@ -1,0 +1,24 @@
+version: '3.8'
+
+# in dev we want features like hot-reloading, mounting code as a volume, and potentially using mock services.
+
+services:
+  main:
+    command: flask run --host=0.0.0.0 --reload  # Enable hot-reloading in Flask
+    environment:
+      - FLASK_ENV=development
+    volumes:
+      - ./service:/usr/src/app
+      - ./service/static:/usr/src/app/static
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data_dev:

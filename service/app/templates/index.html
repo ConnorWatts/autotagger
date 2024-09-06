@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Tagger</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .container {
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        .config-section {
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        input[type="submit"], .button-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover, .button-container button:hover {
+            background-color: #45a049;
+        }
+
+        textarea {
+            width: 100%;
+        }
+
+        h1, h2 {
+            margin: 10px 0;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <img src="/static/images/the-telegraph-logo-vector.png" alt="Telegraph Logo" class="logo">
+
+    <div class="container">
+        <h1>Enter a Recipe</h1>
+        <form id="tag-recipe-form">
+            <textarea name="recipe" rows="10" cols="50" placeholder="Enter your recipe here"></textarea><br><br>
+
+            <!-- All Configurations Together -->
+            <div class="config-section">
+                <h2>Tagging Configurations</h2>
+                <!-- Basic Config -->
+                <label for="tagger_type">Tagger Type:</label><br>
+                <select name="tagger_type">
+                    <option value="llm">LLM Tagger</option>
+                    <option value="similarity">Similarity Tagger</option>
+                    <option value="hybrid">Hybrid Tagger</option>
+                </select><br><br>
+
+                <label for="k">Max Number of Tags Per Category (k):</label><br>
+                <input type="number" name="k" min="1" placeholder="Enter max number of tags"><br><br>
+
+                <label for="categories">Categories (Optional, comma-separated):</label><br>
+                <input type="text" name="categories" placeholder="E.g. Ingredient, Meal Type">
+                <button type="button" id="see-all-categories">See All</button><br><br>
+
+                <!-- Advanced Config -->
+                <label for="model_source">Model Source:</label><br>
+                <input type="text" name="model_source" placeholder="Enter model source (e.g. openai)"><br><br>
+
+                <label for="model_name">Model Name:</label><br>
+                <input type="text" name="model_name" placeholder="Enter model name (e.g. gpt-4)"><br><br>
+
+                <label for="takes">Takes:</label><br>
+                <input type="text" name="takes" placeholder="Enter takes (e.g. one-take)"><br><br>
+            </div>
+
+            <!-- Tag Recipe Button -->
+            <div class="button-container">
+                <input type="submit" value="Tag Recipe">
+            </div>
+        </form>
+
+        <h2>Tags:</h2>
+        <div id="tags"></div>
+
+        <h2>Available Categories and Tags:</h2>
+        <div id="categories_tags">
+            <!-- Section to dynamically display available categories and tags -->
+        </div>
+
+        <div id="all-categories" class="hidden">
+            <h2>All Categories:</h2>
+            <div id="categories-list"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // Form submission handler
+        document.getElementById('tag-recipe-form').onsubmit = async function (e) {
+            e.preventDefault();  // Stop form from refreshing page
+
+            const formData = new FormData(this);
+            const response = await fetch('/api/tagger', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+
+            const tagContainer = document.getElementById('tags');
+            tagContainer.innerHTML = `<p>${JSON.stringify(result.tags)}</p>`;
+        };
+
+        // Fetch available categories and tags when the page loads
+        async function fetchCategoriesTags() {
+            const response = await fetch('/api/categories_tags');  // Endpoint to fetch available categories/tags
+            const result = await response.json();
+
+            const categoriesContainer = document.getElementById('categories_tags');
+            categoriesContainer.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+        }
+
+        // Call the function to fetch categories and tags when the page loads
+        window.onload = fetchCategoriesTags;
+
+        // Fetch all categories when the "See All" button is clicked
+        document.getElementById('see-all-categories').onclick = async function () {
+            const response = await fetch('/api/categories');
+            const result = await response.json();
+
+            const categoriesDiv = document.getElementById('all-categories');
+            const categoriesList = document.getElementById('categories-list');
+            categoriesList.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            categoriesDiv.classList.remove('hidden');
+        };
+    </script>
+</body>
+</html>

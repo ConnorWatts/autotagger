@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Fine-Tune</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .container {
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        .config-section {
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        input[type="submit"], .button-container button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover, .button-container button:hover {
+            background-color: #45a049;
+        }
+
+        textarea {
+            width: 100%;
+        }
+
+        h1, h2 {
+            margin: 10px 0;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+        }
+
+        .tags-section {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .tag-category {
+            margin-bottom: 20px;
+        }
+
+        .tag-category label {
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <img src="/static/images/the-telegraph-logo-vector.png" alt="Telegraph Logo" class="logo">
+
+    <div class="container">
+        <h1>Fine-Tune Recipe Tags</h1>
+
+        <!-- Recipe Input Section -->
+        <form id="tag-recipe-form">
+            <textarea name="recipe" rows="5" cols="50" placeholder="Enter your recipe here"></textarea><br><br>
+
+            <!-- Configurations Section -->
+            <div class="config-section">
+                <h2>Tagging Configurations</h2>
+
+                <label for="tagger_type">Tagger Type:</label><br>
+                <select name="tagger_type">
+                    <option value="llm">LLM Tagger</option>
+                    <option value="similarity">Similarity Tagger</option>
+                    <option value="hybrid">Hybrid Tagger</option>
+                </select><br><br>
+
+                <label for="k">Max Number of Tags Per Category (k):</label><br>
+                <input type="number" name="k" min="1" placeholder="Enter max number of tags"><br><br>
+
+                <label for="categories">Categories (Optional, comma-separated):</label><br>
+                <input type="text" name="categories" placeholder="E.g. Ingredient, Meal Type"><br><br>
+            </div>
+
+            <!-- Tag Recipe Button -->
+            <div class="button-container">
+                <input type="submit" value="Tag Recipe">
+            </div>
+        </form>
+
+        <!-- Display Mock Tags for Fine-Tuning -->
+        <div class="tags-section">
+            <h2>Select Relevant Tags for the Recipe</h2>
+
+            <!-- Mock tags categories and options -->
+            {% for category, tags in mock_tags.items() %}
+                <div class="tag-category">
+                    <label>{{ category }}:</label><br>
+                    {% for tag in tags %}
+                        <input type="checkbox" name="selected_tags" value="{{ tag }}"> {{ tag }}<br>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <!-- Submit Fine-Tuning Choices -->
+            <div class="button-container">
+                <input type="submit" value="Submit Preferences">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form submission handler for the recipe tagging form
+        document.getElementById('tag-recipe-form').onsubmit = async function (e) {
+            e.preventDefault();  // Stop form from refreshing page
+
+            const formData = new FormData(this);
+            const response = await fetch('/api/tagger', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+
+            alert("Recipe tagged successfully! Tags: " + JSON.stringify(result.tags));
+        };
+
+        // Handler for fine-tuning form submission
+        document.querySelector('.tags-section form').onsubmit = async function (e) {
+            e.preventDefault();
+
+            const selectedTags = [...document.querySelectorAll('input[name="selected_tags"]:checked')]
+                                .map(input => input.value);
+            alert("Selected tags: " + JSON.stringify(selectedTags));
+
+            // Here you'd handle the API call to submit the selected tags
+        };
+    </script>
+</body>
+</html>
