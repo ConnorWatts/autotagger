@@ -84,8 +84,8 @@ class LLMTagger(Tagger):
                     category_tags = CategoryService.get_category_tags_str([category])
                     prompt_out = prompt_out.replace("{tags}", category_tags)
 
-            # Try 3 times 
-            for i in range(3):
+            # TODO: Better structure for this
+            for i in range(5):
                 try:
                     response = self.llm.call(prompt_out)
                     parsed_response = self.parse_dict_response(response)

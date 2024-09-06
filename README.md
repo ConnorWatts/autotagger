@@ -110,7 +110,7 @@ http://127.0.0.1:5000/finetune A fine-tuning page where users can manually adjus
 
 http://127.0.0.1:5000/prompt_playground A experimental prompting page where devs can test out new prompts.
 
-![Prompt Playground](./service/app/static/images/prompt_playground.png)
+![Prompt Playground](./service/app/static/images/prompt_playgournd.png)
 
 - **Promts in DB**
 
