@@ -71,6 +71,8 @@ As part of the tagging we only includ tags if they are relevant to the recipe.
 
 You can visit `http://localhost:5000/api/docs/` to view the Swagger API documentation for the devs. 
 
+![Swagger](./service/app/static/images/swagger.png)
+
 ---
 
 ## Cloud Deployment
@@ -102,9 +104,13 @@ I ran out of time but these were some of the ideas I was working towards
 
 http://127.0.0.1:5000/finetune A fine-tuning page where users can manually adjust tags suggested by the system. This would then go back and fine-tune the model.
 
+![Fine Tuning Dashboard](./service/app/static/images/finetune.png)
+
 - **Prompt Playground**
 
 http://127.0.0.1:5000/prompt_playground A experimental prompting page where devs can test out new prompts.
+
+![Prompt Playground](./service/app/static/images/prompt_playground.png)
 
 - **Promts in DB**
 
